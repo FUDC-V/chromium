@@ -1,0 +1,15 @@
+{
+  "name": "chromium-santri",
+  "version": "1.0.0",
+  "description": "Browser Islami berbasis Electron untuk santri",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Human",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^30.0.0"
+  }
+}
+
