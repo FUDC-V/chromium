@@ -1,28 +1,38 @@
 
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
 
 function createWindow() {
-  // Membuat jendela baru
   const win = new BrowserWindow({
     width: 1000,
     height: 700,
-  })
+  });
 
-  // Membuka halaman web (misalnya situs islami)
-  win.loadURL('https://islamicfinder.org/')
+  // The main window loads Google
+  win.loadURL('https://www.google.com/');
+
+  // Handle requests to open new windows
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    // This will allow opening new windows.
+    // The new window will inherit parent's options by default.
+    return { action: 'allow' };
+  });
 }
 
-// Jalankan saat Electron siap
 app.whenReady().then(() => {
-  createWindow()
+  createWindow();
 
-  // Di macOS, buka ulang jika ditutup
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+});
 
-// Keluar jika semua jendela ditutup (untuk Linux/Windows)
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
-})
+  // Quit when all windows are closed, except on macOS.
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
